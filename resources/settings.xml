@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<settings>
+	<category label="General">
+        <setting id="anime.lastvisited" type="number" default="0" visible="false" />
+        <setting type="lsep" label="Trakt" />
+		<setting id="trakt.user" type="action" label="Authorization..." option="close" action="RunPlugin(plugin://plugin.video.masterani/?action=authTrakt)" />
+		<setting id="trakt.token" type="text" option="hidden" visible="false" label="" default="" />
+        <setting id="trakt.refresh" type="text" option="hidden" visible="false" label="" default="" />
+		<setting id="indicators.alt" type="enum" label="Indicators" values="Local|Trakt" default="1" visible="!eq(-3,)" />
+
+        <setting type="lsep" label="Empty Fancy Stuff"/>
+
+        <setting type="lsep" label="MyAnimeList" visible="false"/>
+        <setting id="mal.username" type="text" label="Username:" visible="false"/>
+        <setting id="mal.password" type="text" option="hidden" label="Password:" visible="false"/>
+
+    </category>
+    <category label="Hosts">
+        <setting id="host.mp4upload" type="bool" label="MP4Upload" default="true" />
+        <setting id="host.aniupload" type="bool" label="Aniupload" default="true" />
+        <setting id="host.bakavide" type="bool" label="Bakavideo" default="true" />
+        <setting id="host.youtube" type="bool" label="Youtube" default="true" />
+        <setting id="host.beta" type="bool" label="BETA" default="true" />
+        <setting id="host.stream.moe" type="bool" label="Stream.moe" default="true" />
+        <setting id="host.drive.g" type="bool" label="Drive.g" default="true" />
+				<setting id="host.vidstreaming" type="bool" label="Vidstreaming" default="true" />
+				<setting id="host.rapidvideo" type="bool" label="Rapidvideo" default="true" />
+				<setting id="host.tiwi.kiwi" type="bool" label="Tiwi.kiwi" default="true" />
+				<setting id="host.streamango" type="bool" label="Streamango" default="true" />
+    </category>
+    <category label="Playback">
+        <setting type="lsep" label="Autoplay" />
+        <setting id="autoplay.enabled" label="Enabled" type="bool" default="false" />
+        <setting id="autoplay.maxquality" label="Max Quality" type="select" values="1080|720|480" default="1080" />
+        <setting id="autoplay.subdub" label="Sub | Dub" type="select" values="Sub|Dub" default="Sub" />
+    </category>
+</settings>
