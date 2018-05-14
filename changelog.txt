@@ -1,3 +1,6 @@
+[1.0.1] - 2018-05-13
+- added line to import pyxbmct 
+
 [1.0.0] - 2018-05-03
 - Fixed MP4Upload issues
 - Added support for: Streamango, Rapidvideo, and (kinda works) Tiwi.kiwi 
