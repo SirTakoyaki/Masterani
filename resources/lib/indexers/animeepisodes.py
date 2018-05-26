@@ -96,10 +96,13 @@ class Indexer:
             self.fanart = addon_fanart
 
         mode = 'episodes'
+        j = 0
         for i in items:
             # try:
+                j += 1
                 tvshowtitle = i['title']
                 if tvshowtitle is None: tvshowtitle = i['label']
+                tvshowtitle = str(j) + ". " + tvshowtitle
                 episode_id = i['episode_id']
                 anime_id = i['anime_id']
                 duration = i['duration']

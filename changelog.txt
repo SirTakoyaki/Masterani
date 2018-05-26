@@ -1,3 +1,6 @@
+[1.0.2] - 2018-05-25
+- added episode number before title
+
 [1.0.1] - 2018-05-13
 - added line to import pyxbmct 
 
