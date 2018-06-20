@@ -64,6 +64,10 @@ elif action == 'recent':
     from resources.lib.indexers import recent
     recent.Indexer().get()
 
+elif action == 'popular':
+    from resources.lib.indexers import animeshows
+    animeshows.Indexer().get_popular()
+
 elif action == 'list':
     from resources.lib.indexers import animeshows
     animeshows.Indexer().selectdialog()
