@@ -1,3 +1,8 @@
+[1.0.3] - 2018-06-20
+- fixed case where MP4Upload was not working properly
+- fixed Hosts and Playback settings
+- set some older hosts (and Tiki.kiwi, which as this point does not work at all) that may not work properly to default to off
+
 [1.0.2] - 2018-05-25
 - added episode number before title
 

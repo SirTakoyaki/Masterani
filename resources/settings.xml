@@ -17,16 +17,17 @@
     </category>
     <category label="Hosts">
         <setting id="host.mp4upload" type="bool" label="MP4Upload" default="true" />
-        <setting id="host.aniupload" type="bool" label="Aniupload" default="true" />
-        <setting id="host.bakavide" type="bool" label="Bakavideo" default="true" />
-        <setting id="host.youtube" type="bool" label="Youtube" default="true" />
-        <setting id="host.beta" type="bool" label="BETA" default="true" />
+        <setting id="host.aniupload" type="bool" label="Aniupload" default="false" />
+        <setting id="host.bakavide" type="bool" label="Bakavideo" default="false" />
+        <setting id="host.youtube" type="bool" label="Youtube" default="false" />
+        <setting id="host.beta" type="bool" label="BETA" default="false" />
         <setting id="host.stream.moe" type="bool" label="Stream.moe" default="true" />
-        <setting id="host.drive.g" type="bool" label="Drive.g" default="true" />
-				<setting id="host.vidstreaming" type="bool" label="Vidstreaming" default="true" />
-				<setting id="host.rapidvideo" type="bool" label="Rapidvideo" default="true" />
-				<setting id="host.tiwi.kiwi" type="bool" label="Tiwi.kiwi" default="true" />
-				<setting id="host.streamango" type="bool" label="Streamango" default="true" />
+        <setting id="host.drive.g" type="bool" label="Drive.g" default="false" />
+		<setting id="host.vidstreaming" type="bool" label="Vidstreaming" default="false" />
+		<setting id="host.rapidvideo" type="bool" label="Rapidvideo" default="true" />
+		<setting id="host.tiwi.kiwi" type="bool" label="Tiwi.kiwi" default="false" />
+		<setting id="host.streamango" type="bool" label="Streamango" default="true" />
+        <setting id="host.openload" type="bool" label="Openload" default="true" />
     </category>
     <category label="Playback">
         <setting type="lsep" label="Autoplay" />

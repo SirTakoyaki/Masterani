@@ -54,6 +54,69 @@ def play(anime_id, episode_id):
             if 'Aika' in e['name']:
                 hosts.remove(e)
 
+        #remove all hosts that aren't enabled
+        #probably not the best way to do this, but whatever, just trying to get it to work rn
+
+        if control.setting("host.mp4upload") == "false":
+            for e in hosts:
+                if 'MP4Upload' in e['name']:
+                    hosts.remove(e)
+
+        if control.setting("host.aniupload") == "false":
+            for e in hosts:
+                if 'Aniupload' in e['name']:
+                    hosts.remove(e)
+
+        if control.setting("host.bakavide") == "false":
+            for e in hosts:
+                if 'Bakavideo' in e['name']:
+                    hosts.remove(e)
+
+        if control.setting("host.youtube") == "false":
+            for e in hosts:
+                if 'Youtube' in e['name']:
+                    hosts.remove(e)
+
+        if control.setting("host.beta") == "false":
+            for e in hosts:
+                if 'BETA' in e['name']:
+                    hosts.remove(e)
+        
+        if control.setting("host.stream.moe") == "false":
+            for e in hosts:
+                if 'Stream.moe' in e['name']:
+                    hosts.remove(e)
+
+        if control.setting("host.drive.g") == "false":
+            for e in hosts:
+                if 'Drive.g' in e['name']:
+                    hosts.remove(e)
+                
+        if control.setting("host.vidstreaming") == "false":
+            for e in hosts:
+                if 'Vidstreaming' in e['name']:
+                    hosts.remove(e)
+            
+        if control.setting("host.rapidvideo") == "false":
+            for e in hosts:
+                if 'Rapidvideo' in e['name']:
+                    hosts.remove(e)
+
+        if control.setting("host.tiwi.kiwi") == "false":
+            for e in hosts:
+                if 'Tiwi.kiwi' in e['name']:
+                    hosts.remove(e)
+
+        if control.setting("host.streamango") == "false":
+            for e in hosts:
+                if 'Streamango' in e['name']:
+                    hosts.remove(e)
+        
+        if control.setting("host.openload") == "false":
+            for e in hosts:
+                if 'Openload' in e['name']:
+                    hosts.remove(e)
+
         progressDialog.update(25, line1=l1, line3="Loading episodes urls")
 
         videos = client.request("http://www.masterani.me/api/episode/%s?videos=1" % episode_id)
@@ -69,26 +132,35 @@ def play(anime_id, episode_id):
         maxq = control.setting("autoplay.maxquality")
         subdub = control.setting("autoplay.subdub")
 
-        for video in videos:
-            try: hostname = [x['name'] for x in hosts if int(x['id']) == int(video['host_id'])][0]
-            #just sort the videos by quality
-            except: continue
+        hostCounter = 0
+        autoplayHost = 0
+        videoCounter = 0
 
-
-            subs = 'Sub' if video['type'] is 1 else 'Dub'
-            quality = video['quality']
-            if 'true' in autoplay:
-                if subdub in subs and int(quality) <= int(maxq):
+        while videoCounter < len(videos):
+            try:
+                hostname = [x['name'] for x in hosts if int(x['id']) == int(videos[videoCounter]['host_id'])][0]
+                #just sort the videos by quality
+            
+                subs = 'Sub' if videos[videoCounter]['type'] is 1 else 'Dub'
+                quality = videos[videoCounter]['quality']
+                if 'true' in autoplay:
+                    if subdub == subs and int(quality) <= int(maxq):
+                        hostlist.append("%s | %s | %s" % (quality, subs, hostname))
+                        autoplayHost = hostCounter
+                        #since in reverse order, the first one should be the best quality
+                        #based on how this is written, autoplay wont automatically try the next host if this one fails
+                        #might change it in the future
+                        break
+                    hostCounter += 1
+                else:
                     hostlist.append("%s | %s | %s" % (quality, subs, hostname))
-            else:
-                hostlist.append("%s | %s | %s" % (quality, subs, hostname))
-
+                videoCounter += 1
+            except:
+                videos.remove(videos[videoCounter])
 
         if len(hostlist) is 0:
             xbmcgui.Dialog().ok("Masterani", "No supported hosts found.")
             return
-
-
 
         if autoplay in 'false':
             hostdialog = control.dialog.select("Select host", hostlist)
@@ -98,7 +170,7 @@ def play(anime_id, episode_id):
                 xbmcgui.Dialog().ok("Masterani", "No hosts found for autoplay.", "Change addon settings and try again.")
                 hostdialog = -1
             else:
-                hostdialog = 0
+                hostdialog = autoplayHost
 
         if hostdialog == -1:
             progressDialog.close()
@@ -136,7 +208,10 @@ def play(anime_id, episode_id):
             mp4 = re.compile("source src=\"(.+?)\"").findall(content)[0]
         if 'MP4Upload' in host['name']:
             www = re.compile("\|www([0-9]+?)\|").findall(client.request(url))[0]
-            content = re.compile("\|mp4\|video\|(.+?)\|282\|").findall(client.request(url))[0]
+            content = re.compile("\|mp4\|video\|(.+?)\|282\|").findall(client.request(url))
+            if len(content) == 0:
+                 content = re.compile("\|mp4\|\|\|(.+?)\|282\|").findall(client.request(url))
+            content = content[0]
             mp4 = "https://www" + www + ".mp4upload.com:282/d/" + content + "/video.mp4"
         if 'Bakavideo' in host['name']:
             content = re.compile("go\((.+?)\)").findall(client.request(url))[0]
@@ -205,29 +280,20 @@ def play(anime_id, episode_id):
             url = url + "&q=" + str(vidQuality) + "p"
             mp4 = re.compile("source src=\"(.+?)\"").findall(client.request(url))[0]
         if 'Tiwi.kiwi' in host['name']:
-            #Tiwi kiwi only seems to work half the time
-            #Some stream seem to have seperate audio and video sources, in which case I'm not sure how to handle
+            #Tiwi kiwi seems to work basically none of the time now
+            #Previously only some streams, now all stream seem to have seperate audio and video sources, in which case I'm not sure how to handle
             #I can get either the audio or video working but not both
-            #The method below works if there is a single source for the video (which works sometimes)
+            #The method below works if there is a single source for the video (which works [none of the times now])
             content = re.compile("\|mp4\|(.+?)\|sources\|").findall(client.request(url))[0]
             mp4= "https://fs01.tiwicdn.net/" + content + "/v.mp4"
         if 'Streamango' in host['name']:
             #there's a different num and token for every request, so call once
             streamangoURL = client.request(url)
-            #I had orginally thought that there was multiple links for different quality videos, but that doesb't seem to be the case
+            #I had orginally thought that there was multiple links for different quality videos, but that doesn't seem to be the case
             numFinder = "',(.+?)\),height:"# + str(vidQuality)
             num = re.compile(numFinder).findall(streamangoURL)[0]
-            #xbmc.log("num is: " + str(num))
-
             tokenFinder = "src:d\('(.+?)'," + str(num) + "\),height:" #+ str(vidQuality)
-            #tokenFinder2 = "src:d\('(.+?)" + numFinder
-            #xbmc.log("tokenFinder is: " + tokenFinder)
-            #xbmc.log("tokenFinder2 is: " + tokenFinder2)
-
-            #token2 = re.compile(tokenFinder2).findall(streamangoURL)[0]
-            #xbmc.log("token2 is: " + str(token2))
             token = re.compile(tokenFinder).findall(streamangoURL)[0]
-            #xbmc.log("token is: " + str(token))
             mp4 = "https:" + streamangoFix.d(token,int(num))
         progressDialog.close()
         MAPlayer().run(anime_id, episode_id, mp4)
