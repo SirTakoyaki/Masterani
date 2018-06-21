@@ -165,14 +165,14 @@ class Indexer:
             root.main_menu()
 
     def get_popular(self):
-        result = client.request("https://www.masterani.me/api/anime/trending/today")
+        result = client.request("https://www.masterani.me/api/anime/trending")
         result = json.loads(result)
 
         print result
 
         if len(result) is 0: return
 
-        for i in result: self.list.append({'anime_id': i['slug'].split('-', 1)[0], 'status': 0})
+        for i in result['popular_today']: self.list.append({'anime_id': i['slug'].split('-', 1)[0], 'status': 1})
 
         self.worker()
         self.add_directory(self.list)
