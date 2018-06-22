@@ -94,7 +94,7 @@ elif action == 'search':
 
 elif action == 'clearCache':
     from resources.lib.modules import cache
-    cache.clear()
+    cache.cache_clear()
 
 elif action == "watched":
     from resources.lib.modules import watched

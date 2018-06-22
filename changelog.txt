@@ -1,3 +1,8 @@
+[1.0.4] - 2018-06-21
+- Trakt authorization seems to be working now, yay! (though at this point not sure if it does anything beyond authorization)
+- as a result of the Trakt fix, some files which were a little outdated from Exodus have been updated to use the newer (but still kind of dated) ones from Covenant
+- thanks to SuzwagKururugi for adding the popular section
+
 [1.0.3] - 2018-06-20
 - fixed case where MP4Upload was not working properly
 - fixed Hosts and Playback settings
